@@ -1,0 +1,9 @@
+class Solution(object):
+    def twoSum(self, numbers, target):
+        for i in range(0, len(numbers)):
+            num_2 = target - i #number of second index
+            if num_2 in numbers:
+                index_2 = numbers.index(num_2) # retrieve index of the other number
+                index_1 = numbers.index(i) 
+                if index_1 != index_2:
+                    print([index_1, index_2 + 1])
