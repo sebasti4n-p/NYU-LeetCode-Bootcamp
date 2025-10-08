@@ -1,0 +1,28 @@
+class Solution(object):
+    def sortColors(self, nums):
+      
+        # initiating count variables
+        zero = 0
+        one = 0
+        two = 0
+
+        # Counting how many of each number in nums
+        for num in nums:
+            if num == 0:
+                zero += 1
+            if num == 1:
+                one += 1
+            if num == 2:
+                two += 1
+        
+        # Placing numbers in order starting with 0 
+        for i in range(len(nums)):
+            if zero > 0:
+                nums[i] = 0
+                zero -= 1
+            elif one > 0:
+                nums[i] = 1
+                one -= 1
+            elif two > 0:
+                nums[i] = 2
+                two -= 1
