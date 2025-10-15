@@ -1,0 +1,36 @@
+class Solution(object):
+    def findAnagrams(self, s, p):
+        """
+        :type s: str
+        :type p: str
+        :rtype: List[int]
+        """
+        n, m = len(s), len(p)
+        if m > n:
+            return []
+
+        def idx(c):
+            return ord(c) - ord('a')
+
+        need = [0] * 26
+        have = [0] * 26
+
+        for ch in p:
+            need[idx(ch)] += 1
+
+        res = []
+        l = 0
+
+        for r, ch in enumerate(s):
+            have[idx(ch)] += 1
+
+            # Keep window at most size m
+            if r - l + 1 > m:
+                have[idx(s[l])] -= 1
+                l += 1
+
+            # If window size equals p and counts match, record start
+            if r - l + 1 == m and have == need:
+                res.append(l)
+
+        return res
