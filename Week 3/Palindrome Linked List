@@ -1,0 +1,44 @@
+# Definition for singly-linked list.
+class ListNode(object):
+    def __init__(self, val=0, next=None):
+         self.val = val
+         self.next = next
+class Solution(object):
+    def isPalindrome(self, head):
+        # Find middle with fast/slow
+        slow, fast = head, head
+        while fast and fast.next: #keep looping as long as fast and fast.next exist (not None)
+            slow = slow.next
+            fast = fast.next.next
+
+        # If odd length, skip the middle node
+        if fast: # fast not None means odd number of nodes
+            slow = slow.next
+        
+        # Reverse the second half
+        second = self._reverse(slow)
+
+        # Compare first half and second half
+        p1, p2 = head, second
+        result = True
+        while p2: # only need to walk the shorter (right) half
+            if p1.val != p2.val:
+                result = False
+                break
+            p1 = p1.next
+            p2 = p2.next
+
+        # Restore the list
+        self._reverse(second)
+
+        return result
+
+    def _reverse(self, node):
+        prev = None
+        curr = node
+        while curr:
+            nxt = curr.next
+            curr.next = prev
+            prev = curr
+            curr = nxt
+        return prev
