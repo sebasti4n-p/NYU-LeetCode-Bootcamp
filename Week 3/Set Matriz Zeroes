@@ -1,0 +1,35 @@
+class Solution(object):
+    def setZeroes(self, matrix):
+        """
+        :type matrix: List[List[int]]
+        :rtype: None Do not return anything, modify matrix in-place instead.
+        """
+    
+        if not matrix or not matrix[0]:
+            return
+        m, n = len(matrix), len(matrix[0])
+
+        # 1) Detect if first row/col need zeroing
+        row0_zero = any(matrix[0][c] == 0 for c in range(n))
+        col0_zero = any(matrix[r][0] == 0 for r in range(m))
+
+        # 2) Use first row/col as markers
+        for r in range(1, m):
+            for c in range(1, n):
+                if matrix[r][c] == 0:
+                    matrix[r][0] = 0
+                    matrix[0][c] = 0
+
+        # 3) Zero inner cells based on markers
+        for r in range(1, m):
+            for c in range(1, n):
+                if matrix[r][0] == 0 or matrix[0][c] == 0:
+                    matrix[r][c] = 0
+
+        # 4) Zero first row/col if needed (do LAST)
+        if row0_zero:
+            for c in range(n):
+                matrix[0][c] = 0
+        if col0_zero:
+            for r in range(m):
+                matrix[r][0] = 0
