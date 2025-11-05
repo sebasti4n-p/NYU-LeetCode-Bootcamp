@@ -1,0 +1,47 @@
+# Definition for singly-linked list.
+class ListNode(object):
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+class Solution(object):
+    def reorderList(self, head):
+        if not head or not head.next:
+            return
+        # find middle with fast/slow
+        slow, fast = head, head
+        prev = None
+        while fast and fast.next: #loop while fast and fast.next still exist
+            prev = slow
+            slow = slow.next
+            fast = fast.next.next
+        
+        # Cut left half from right half
+        # if odd, slow is the true middle; that's fine
+        prev.next = None # left list: head...prev ; right list: slow..
+
+        # Reverse right half
+        right = self._reverse(slow)
+
+
+        # Merge alternating
+        left = head
+        while right:
+            n1 = left.next
+            n2 = right.next
+            
+            left.next = right
+            right.next = n1
+
+            left = n1 if n1 else right # move left if possible, else park at right
+            right = n2
+            
+        # reverses the direction of next
+    def _reverse(self, node):
+        prev = None
+        curr = node
+        while curr:
+            nxt = curr.next
+            curr.next = prev
+            prev = curr
+            curr = nxt
+        return prev
