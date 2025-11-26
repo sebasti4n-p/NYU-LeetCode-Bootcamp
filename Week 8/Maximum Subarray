@@ -1,0 +1,15 @@
+class Solution(object):
+    def maxSubArray(self, nums):
+       
+        # Initialize both to the first element so it works even if all are negative
+        cur_sum = nums[0]
+        max_sum = nums[0]
+        
+        for i in range(1, len(nums)):
+            x = nums[i]
+            # Either extend the previous subarray or start new from current element
+            cur_sum = max(x, cur_sum + x)
+            # Update global maximum
+            max_sum = max(max_sum, cur_sum)
+        
+        return max_sum
