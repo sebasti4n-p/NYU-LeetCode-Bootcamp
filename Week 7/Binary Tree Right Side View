@@ -1,0 +1,16 @@
+class Solution(object):
+    def rightSideView(self, root):
+        res = []
+
+        def dfs(node, depth):
+            if not node:
+                return
+            # first time we reach this depth, this node is the rightmost
+            if depth == len(res):
+                res.append(node.val)
+
+            dfs(node.right, depth + 1)
+            dfs(node.left, depth + 1)
+
+        dfs(root, 0)
+        return res
