@@ -1,0 +1,26 @@
+from collections import defaultdict
+
+class Solution(object):
+    def topKFrequent(self, nums, k):
+       
+        # 1) Count frequencies
+        freq = defaultdict(int)
+        for num in nums:
+            freq[num] += 1
+
+        # 2) Buckets: index = frequency, value = list of nums with that freq
+        n = len(nums)
+        buckets = [[] for _ in range(n + 1)]
+        for num, f in freq.items():
+            buckets[f].append(num)
+
+        # 3) Walk buckets from high freq to low, collect k elements
+        res = []
+        for f in range(n, 0, -1):
+            if buckets[f]:
+                for num in buckets[f]:
+                    res.append(num)
+                    if len(res) == k:
+                        return res
+
+        return res  # fallback (logically we should have already returned)
