@@ -1,0 +1,22 @@
+class Solution(object):
+    def canPartition(self, nums):
+
+        total = sum(nums)
+        
+        # If total is odd, can't split into two equal integers
+        if total % 2 != 0:
+            return False
+        
+        target = total // 2
+        
+        # dp[s] == True means: we can make sum s using some subset of nums
+        dp = [False] * (target + 1)
+        dp[0] = True   # sum 0 is always possible (pick nothing)
+        
+        for num in nums:
+            # Go backwards so we don’t reuse the same number multiple times
+            for s in range(target, num - 1, -1):
+                if dp[s - num]:
+                    dp[s] = True
+        
+        return dp[target]
