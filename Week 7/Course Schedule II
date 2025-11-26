@@ -1,0 +1,35 @@
+from collections import deque
+
+class Solution(object):
+    def findOrder(self, numCourses, prerequisites):
+        # Build graph and indegree array
+        graph = [[] for _ in range(numCourses)]
+        indegree = [0] * numCourses
+        
+        for course, pre in prerequisites:
+            graph[pre].append(course)
+            indegree[course] += 1
+        
+        # Queue of all courses with no prerequisites
+        q = deque()
+        for c in range(numCourses):
+            if indegree[c] == 0:
+                q.append(c)
+        
+        order = []
+        
+        # Kahn's algorithm (BFS topological sort)
+        while q:
+            cur = q.popleft()
+            order.append(cur)
+            
+            for nxt in graph[cur]:
+                indegree[nxt] -= 1
+                if indegree[nxt] == 0:
+                    q.append(nxt)
+        
+        # If we couldn't take all courses, there is a cycle
+        if len(order) != numCourses:
+            return []
+        
+        return order
